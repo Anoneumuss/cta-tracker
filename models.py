@@ -82,3 +82,5 @@ class Arrivals(db.Model):
 
     #The __init__ needs to be finished
   #  def __init__ (self, )
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}

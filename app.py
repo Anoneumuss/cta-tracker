@@ -16,11 +16,15 @@ def init():
 
 @app.route('/Arrivals')
 def get_arrivals():
-    latest = Arrivals.query.order_by(Arrivals.timestamp.desc()).first()
+    arrivals = Arrivals.query.all()
 
-    if not latest:
+    if not arrivals:
         return jsonify({"status": "no data yet"}), 200
-    return jsonify(latest.data)
+
+    # Serialize rows
+    data = [a.to_dict() for a in arrivals]
+
+    return jsonify(data), 200
 
 if __name__ == "__main__":
-    app.run(debug = True, use_reloader = False)
+    app.run(debug = True, use_reloader = True)
